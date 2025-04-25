@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProducts, createProduct } from '@/utils/api';
 import { Product } from '@/models/Product';
+import {Button} from "@mantine/core";
 
 const TestingPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
