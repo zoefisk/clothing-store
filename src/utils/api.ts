@@ -20,8 +20,6 @@ export async function fetchProducts() {
     }
 
     const data = await response.json(); // Await the JSON response
-    console.log("response.json = ", data); // Log the actual data
-
     return data; // Return the resolved data
 }
 
