@@ -2,7 +2,13 @@ import { NextResponse } from 'next/server';
 import { ProductController } from './controllers';
 
 export async function getProductsHandler() {
+
+  console.log("made it to getProductsHandler");
+
   const { data, error } = await ProductController.getAllProducts();
+
+  console.log("data = ", data);
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
