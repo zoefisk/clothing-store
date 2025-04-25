@@ -39,6 +39,7 @@ export async function createProduct(product: Omit<Product, 'id'>) {
             colors: product.colors,
             sizes: product.sizes,
             price: product.price,
+            category: product.category,
         }),
     });
     if (!response.ok) {

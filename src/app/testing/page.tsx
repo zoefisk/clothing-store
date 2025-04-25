@@ -37,9 +37,9 @@ const TestingPage: React.FC = () => {
         ))}
       </ul>
 
-        <button onClick={() => createProduct(new Product("Test Product", ["red", "blue"], ["S", "M"], 19.99))}>
+        <Button onClick={() => createProduct(new Product("Test Product", ["red", "blue"], ["S", "M"], 19.99, "Test Category"))}>
             Add Test Product
-        </button>
+        </Button>
     </div>
   );
 };
