@@ -1,4 +1,4 @@
-const clothingTypes = [
+export const clothingTypes = [
     'Tops',
     'Bottoms',
     'Dresses',
@@ -7,7 +7,7 @@ const clothingTypes = [
     'Accessories',
 ];
 
-const clothingSyles = [
+export const clothingStyles = [
     'Casual',
     'Formal',
     'Sporty',
@@ -16,7 +16,7 @@ const clothingSyles = [
     'Vintage',
 ];
 
-const clothingSizes = [
+export const clothingSizesShorthand = [
     'XS',
     'S',
     'M',
@@ -25,7 +25,16 @@ const clothingSizes = [
     'XXL',
 ];
 
-const clothingColors = [
+export const clothingSizes = [
+    'Extra Small',
+    'Small',
+    'Medium',
+    'Large',
+    'Extra Large',
+    'Double Extra Large',
+];
+
+export const clothingColors = [
     'Red',
     'Blue',
     'Green',
