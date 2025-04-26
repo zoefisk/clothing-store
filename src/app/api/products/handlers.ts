@@ -4,9 +4,10 @@ import { ProductController } from './controllers';
 export async function getProductsHandler(req: Request) {
 
   const url = new URL(req.url);
-  const productSlug = url.searchParams.get('productSlug');
+  const productSlug = url.searchParams.get('slug');
 
   if (productSlug) {
+
     const { data, error } = await ProductController.getProductByProductSlug(productSlug);
 
     if (error) {
