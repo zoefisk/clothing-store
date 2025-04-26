@@ -24,6 +24,23 @@ export async function signUp(user: User) {
     return result;
 }
 
+export async function updateUserAdminStatus(email: string, admin: boolean) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/users/admin`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email,
+            admin,
+        }),
+    });
 
+    const result = await response.json();
 
-// TODO: add a function called updateUserAdminStatus
+    if (!response.ok) {
+        throw new Error(JSON.stringify(result));
+    }
+
+    return result;
+}

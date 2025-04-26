@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchProducts, createProduct } from '@/utils/api';
 import { Product } from '@/models/Product';
 import {Button} from "@mantine/core";
-import SignUpWithGoogleButton from "@/components/authentication/SignUpWithGoogleButton";
+import SignInWithGoogleButton from "@/components/authentication/SignInWithGoogleButton";
 
 const TestingPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,7 +26,7 @@ const TestingPage: React.FC = () => {
   return (
     <div>
 
-      <SignUpWithGoogleButton/>
+      <SignInWithGoogleButton/>
 
       <h1>Products</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
