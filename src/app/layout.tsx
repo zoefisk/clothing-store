@@ -5,6 +5,7 @@ import { MantineProvider, createTheme } from "@mantine/core";
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
 import NavBar from "@/components/navigation/NavBar";
+import {Container} from "@mantine/core";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,9 @@ export default function RootLayout({
       <body>
         <MantineProvider theme={customTheme}>
           <NavBar/>
-          {children}
+          <Container style={{ margin: "20px auto", maxWidth: "90%", padding: "0 0" }}>
+            {children}
+          </Container>
         </MantineProvider>
       </body>
     </html>
