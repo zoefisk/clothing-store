@@ -29,6 +29,9 @@ export default function ProductDetailsPage() {
             }
         };
 
+        fetchProduct();
+    }, [productSlug]);
+    useEffect(() => {
         const fetchImages = async () => {
             if (product) {
                 try {
@@ -44,9 +47,8 @@ export default function ProductDetailsPage() {
             }
         };
 
-        fetchProduct();
         fetchImages();
-    }, [productSlug]);
+    }, [product]);
 
     if (loading) {
         return <Skeleton visible={true} height={400} />;
@@ -56,7 +58,6 @@ export default function ProductDetailsPage() {
         notFound();
     }
 
-    console.log("Product details: ", product);
     console.log("Product images: ", images);
 
     return (

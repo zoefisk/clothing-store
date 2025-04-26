@@ -75,6 +75,8 @@ export async function fetchImageByStockLevelId(stockLevelId: number) {
 
 export async function fetchImagesByProductId(productId: number) {
 
+    console.log("made it to fetchImagesByProductId");
+
     const response = await fetch(`/api/product-images?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
