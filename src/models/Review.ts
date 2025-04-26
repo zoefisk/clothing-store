@@ -1,3 +1,6 @@
+/**
+ * Review model
+ */
 export class Review {
     id?: number;
     userId: number;
@@ -19,5 +22,8 @@ export class Review {
         this.content = content;
         this.createdAt = createdAt;
         this.rating = rating;
+        this.id = id;
     }
 }
+
+// TODO: if user no longer exists, delete the review

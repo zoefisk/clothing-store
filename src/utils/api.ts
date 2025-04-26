@@ -6,6 +6,7 @@
  */
 
 import {Product} from "@/models/Product";
+import {Review} from "@/models/Review";
 
 /**
  * fetchProducts
@@ -71,9 +72,6 @@ export async function fetchImageByStockLevelId(stockLevelId: number) {
 }
 
 export async function fetchImagesByProductId(productId: number) {
-
-    console.log("made it to fetchImagesByProductId");
-
     const response = await fetch(`/api/product-images?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -81,6 +79,32 @@ export async function fetchImagesByProductId(productId: number) {
     }
 
     const data = await response.json(); // Await the JSON response
+    return data; // Return the resolved data
+}
+
+export async function fetchReviewsByProductId(productId: number): Promise<Review[]> {
+    const response = await fetch(`/api/reviews?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch product reviews');
+    }
+
+    const data = await response.json(); // Await the JSON response
+
+    // Transform the keys from snake_case to camelCase
+    // TODO: do this for the rest of the API
+    const reviews = data.map((review: any) => ({
+        id: review.id,
+        productId: review.product_id,
+        userId: review.user_id,
+        rating: review.rating,
+        comment: review.comment,
+        createdAt: review.created_at,
+        updatedAt: review.updated_at,
+    }));
+
+    return reviews; // Return the transformed data
+
     return data; // Return the resolved data
 }
 

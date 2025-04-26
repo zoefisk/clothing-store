@@ -3,17 +3,21 @@
 import { useEffect, useState } from "react";
 import { notFound, useParams } from "next/navigation";
 import { Product } from "@/models/Product";
-import { fetchImagesByProductId, fetchProductBySlug } from "@/utils/api";
+import {fetchImagesByProductId, fetchProductBySlug, fetchReviewsByProductId} from "@/utils/api";
 import { Skeleton, Text, Image, Badge, Button, Container, Breadcrumbs, Anchor, Grid, Textarea, Title } from "@mantine/core";
 import P from "@/components/typography/P";
 import { ProductImage } from "@/models/ProductImage";
 import ProductDetails from "@/components/products/ProductDetails";
+import {getSignedInUser} from "@/utils/auth";
+import ReviewList from "@/components/reviews/ReviewList";
+import {Review} from "@/models/Review";
 
 export default function ProductDetailsPage() {
     const { productSlug } = useParams() as { productSlug: string };
     if (!productSlug) notFound();
 
     const [product, setProduct] = useState<Product | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [images, setImages] = useState<ProductImage[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -52,13 +56,28 @@ export default function ProductDetailsPage() {
         fetchImages();
     }, [product]);
 
-    if (loading) {
-        return <Skeleton visible={true} height={400} />;
-    }
+    useEffect(() => {
+        const fetchReviews = async () => {
+            if (product) {
+                try {
+                    if (product.id !== undefined) {
+                        const reviews = await fetchReviewsByProductId(product.id);
+                        setReviews(reviews);
+                    } else {
+                        console.error("Product ID is undefined");
+                    }
+                } catch (error) {
+                    console.error("Error fetching product reviews:", error);
+                }
+            }
+        };
 
-    if (!product) {
-        notFound();
-    }
+        fetchReviews();
+    }, [product]);
+
+
+    if (loading) return <Skeleton visible={true} height={400} />;
+    if (!product) notFound();
 
     const breadcrumbItems = [
         { title: "Home", href: "/" },
@@ -84,15 +103,8 @@ export default function ProductDetailsPage() {
             </Grid>
 
             {/* Reviews and Comments Section */}
-            <Title order={3} mt="xl" mb="md">Reviews and Comments</Title>
-            <Textarea
-                placeholder="Write your review here..."
-                label="Leave a comment"
-                autosize
-                minRows={3}
-                mb="md"
-            />
-            <P>No reviews yet. Be the first to leave a comment!</P>
+            <hr/>
+            <ReviewList reviews={reviews}/>
 
             {/* Similar Items Section */}
             <Title order={3} mt="xl" mb="md">View More Like This</Title>
