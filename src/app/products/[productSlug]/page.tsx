@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { notFound, useParams } from "next/navigation";
 import { Product } from "@/models/Product";
 import { fetchImagesByProductId, fetchProductBySlug } from "@/utils/api";
-import { Skeleton, Text, Image, Badge, Button, Container, Breadcrumbs, Anchor } from "@mantine/core";
+import { Skeleton, Text, Image, Badge, Button, Container, Breadcrumbs, Anchor, Grid, Textarea, Title } from "@mantine/core";
 import P from "@/components/typography/P";
 import { ProductImage } from "@/models/ProductImage";
+import ProductDetails from "@/components/products/ProductDetails";
 
 export default function ProductDetailsPage() {
     const { productSlug } = useParams() as { productSlug: string };
@@ -74,12 +75,32 @@ export default function ProductDetailsPage() {
             <Breadcrumbs separator="→" mt="md" mb="lg">
                 {breadcrumbItems}
             </Breadcrumbs>
-            <Image src={images[0]?.url} alt={product.name} height={300} fit="cover" />
-            <Text fw={700} size="xl" mt="md">{product.name}</Text>
-            <Badge color="pink" size="lg" mt="sm">${product.price}</Badge>
-            <Button color="blue" fullWidth mt="lg" radius="md">
-                Add to Cart
-            </Button>
+            <Grid>
+                {/* Left Column: Image */}
+                <Grid.Col span={6}>
+                    <Image src={images[0]?.url} alt={product.name} height={300} fit="cover" />
+                </Grid.Col>
+                <ProductDetails product={product} />
+            </Grid>
+
+            {/* Reviews and Comments Section */}
+            <Title order={3} mt="xl" mb="md">Reviews and Comments</Title>
+            <Textarea
+                placeholder="Write your review here..."
+                label="Leave a comment"
+                autosize
+                minRows={3}
+                mb="md"
+            />
+            <P>No reviews yet. Be the first to leave a comment!</P>
+
+            {/* Similar Items Section */}
+            <Title order={3} mt="xl" mb="md">View More Like This</Title>
+            {/*{similarProducts.length > 0 ? (*/}
+            {/*    <ProductGrid products={similarProducts} />*/}
+            {/*) : (*/}
+            {/*    <P>No similar items found.</P>*/}
+            {/*)}*/}
         </Container>
     );
 }
