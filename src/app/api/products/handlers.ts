@@ -1,13 +1,21 @@
 import { NextResponse } from 'next/server';
 import { ProductController } from './controllers';
 
-export async function getProductsHandler() {
+export async function getProductsHandler(req: Request) {
 
-  console.log("made it to getProductsHandler");
+  const url = new URL(req.url);
+  const productSlug = url.searchParams.get('productSlug');
+
+  if (productSlug) {
+    const { data, error } = await ProductController.getProductByProductSlug(productSlug);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json(data, { status: 200 });
+  }
 
   const { data, error } = await ProductController.getAllProducts();
-
-  console.log("data = ", data);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

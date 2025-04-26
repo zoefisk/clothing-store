@@ -13,10 +13,28 @@ import {Product} from "@/models/Product";
  * This function fetches the list of products from the API.
  * </br>
  */
-export async function fetchProducts() {
+export async function fetchProducts(): Promise<Product[]> {
     const response = await fetch('/api/products', { method: 'GET' });
     if (!response.ok) {
         throw new Error('Failed to fetch products');
+    }
+
+    const data = await response.json(); // Await the JSON response
+    return data; // Return the resolved data
+}
+
+/**
+ * fetchProductBySlug
+ * <br>
+ * This function fetches a product by its slug from the API.
+ * </br>
+ * @param productSlug The slug of the product to fetch.
+ */
+export async function fetchProductBySlug(productSlug: string): Promise<Product | null> {
+    const response = await fetch(`/api/products?slug=${encodeURIComponent(productSlug)}`, { method: 'GET' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch product');
     }
 
     const data = await response.json(); // Await the JSON response
