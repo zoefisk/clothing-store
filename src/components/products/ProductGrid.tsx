@@ -12,7 +12,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
     return (
         <Grid>
             {products.map((product) => (
-                <Grid.Col key={product.id} span={4}>
+                <Grid.Col key={product.id} span={2.7}>
                     <ProductCard product={product} />
                 </Grid.Col>
             ))}
