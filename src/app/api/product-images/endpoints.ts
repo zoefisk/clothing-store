@@ -1,10 +1,8 @@
 import {
-  getProductImageByStockLevelIdHandler,
-  createProductImageHandler,
-  getProductImagesByProductIdHandler
+  createProductImageHandler, ProductImageRequestHandler
 } from './handlers';
 
 export const endpoints = {
-  GET: [getProductImageByStockLevelIdHandler, getProductImagesByProductIdHandler],
+  GET: ProductImageRequestHandler,
   POST: createProductImageHandler,
 };

@@ -38,6 +38,9 @@ export async function fetchStockLevelByProductId(productId: number) {
     }
 
     const data = await response.json(); // Await the JSON response
+
+    console.log("productId: ", productId, "data: ", data);
+
     return data; // Return the resolved data
 }
 
@@ -53,6 +56,7 @@ export async function fetchImageByStockLevelId(stockLevelId: number) {
 }
 
 export async function fetchImagesByProductId(productId: number) {
+
     const response = await fetch(`/api/product-images?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
