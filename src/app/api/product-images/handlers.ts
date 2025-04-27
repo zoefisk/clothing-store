@@ -5,6 +5,7 @@ export async function ProductImageRequestHandler(req: Request) {
   const url = new URL(req.url);
   const stockLevelId = url.searchParams.get('stockLevelId');
   const productId = url.searchParams.get('productId');
+  const imageId = url.searchParams.get('imageId');
 
   if (stockLevelId) {
     const parsedStockLevelId = parseInt(stockLevelId, 10);
@@ -32,7 +33,20 @@ export async function ProductImageRequestHandler(req: Request) {
     return NextResponse.json(data, { status: 200 });
   }
 
-  return NextResponse.json({ error: 'Either Stock Level ID or Product ID is required' }, { status: 400 });
+  if (imageId) {
+    const parsedImageId = parseInt(imageId, 10);
+    if (isNaN(parsedImageId)) {
+      return NextResponse.json({ error: 'Invalid Image ID' }, { status: 400 });
+    }
+
+    const { data, error } = await StockLevelHandler.getProductImageByImageId(parsedImageId);
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json(data, { status: 200 });
+  }
+
+  return NextResponse.json({ error: 'Either Stock Level ID, Product ID, or Image ID is required' }, { status: 400 });
 }
 
 export async function createProductImageHandler(req: Request) {

@@ -7,14 +7,14 @@ export class ProductImage {
     productId: number;
     fileName: string;
     url: string;
-    alt_text: string;
+    altText: string;
 
-    constructor (stockLevelId: number, productId: number, fileName: string, url: string, alt_text: string, id?: number) {
+    constructor (stockLevelId: number, productId: number, fileName: string, url: string, altText: string, id?: number) {
         this.stockLevelId = stockLevelId;
         this.productId = productId;
         this.fileName = fileName;
         this.url = url;
-        this.alt_text = alt_text;
+        this.altText = altText;
         this.id = id;
     }
 }

@@ -38,20 +38,20 @@ export default function ProductCard({ product, useCarousel = true }: { product: 
             </div>
         );
     } else if (images.length === 1) {
-        imageArea = <Image src={images[0].url} alt={images[0].alt_text} height={200} fit="cover" />;
+        imageArea = <Image src={images[0].url} alt={images[0].altText} height={200} fit="cover" />;
     } else if (images.length > 1) {
         if (useCarousel) {
             imageArea = (
                 <Carousel orientation="horizontal" height={350} withIndicators loop>
                     {images.map((image, index) => (
                         <Carousel.Slide key={`${image.url}-${index}`} style={{ display: "flex", justifyContent: "center" }}>
-                            <Image src={image.url} alt={image.alt_text} height={300} fit="cover" />
+                            <Image src={image.url} alt={image.altText} height={300} fit="cover" />
                         </Carousel.Slide>
                     ))}
                 </Carousel>
             );
         } else {
-            imageArea = <Image src={images[0].url} alt={images[0].alt_text} height={200} fit="cover" />;
+            imageArea = <Image src={images[0].url} alt={images[0].altText} height={200} fit="cover" />;
         }
     }
 

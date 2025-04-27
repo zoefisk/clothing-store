@@ -20,6 +20,16 @@ export class StockLevelHandler {
     return { data, error };
   }
 
+  static async getProductImageByImageId(imageId: number) {
+    const { data, error } = await supabase
+        .from('product_images')
+        .select('*')
+        .eq('id', imageId)
+        .single();
+
+    return { data, error };
+  }
+
   static async createProductImage(product: Record<string, any>) {
     const { data, error } = await supabase.from('stock_levels').insert([product]).select().single();
     return { data, error };

@@ -60,7 +60,7 @@ export async function fetchStockLevelsByProductId(productId: number) {
     return data; // Return the resolved data
 }
 
-export async function fetchImageByStockLevelId(stockLevelId: number) {
+export async function fetchImagesByStockLevelId(stockLevelId: number) {
     const response = await fetch(`/api/product-images?stockLevelId=${encodeURIComponent(stockLevelId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -69,6 +69,25 @@ export async function fetchImageByStockLevelId(stockLevelId: number) {
 
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
+}
+
+export async function fetchImageByImageId(imageId: number) {
+    const response = await fetch(`/api/product-images?imageId=${encodeURIComponent(imageId)}`, { method: 'GET' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch product image');
+    }
+
+    const data = await response.json(); // Await the JSON response
+
+    return {
+        stockLevelId: data.stock_level_id,
+        productId: data.product_id,
+        fileName: data.file_name,
+        url: data.url,
+        altText: data.alt_text,
+        id: data.id,
+    }; // Return the transformed object
 }
 
 export async function fetchImagesByProductId(productId: number) {
@@ -104,8 +123,6 @@ export async function fetchReviewsByProductId(productId: number): Promise<Review
     }));
 
     return reviews; // Return the transformed data
-
-    return data; // Return the resolved data
 }
 
 /**
