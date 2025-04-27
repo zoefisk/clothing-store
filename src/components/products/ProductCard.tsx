@@ -5,12 +5,12 @@ import { Badge, Button, Text, Card, Group, Image, Box, Skeleton } from "@mantine
 import { Carousel } from "@mantine/carousel";
 import { Product } from "@/models/Product";
 import { useEffect, useState } from "react";
-import { fetchImagesByProductId, fetchStockLevelByProductId } from "@/utils/api";
+import { fetchImagesByProductId, fetchStockLevelsByProductId } from "@/utils/api";
 import { ProductImage } from "@/models/ProductImage";
 import P from "@/components/typography/P";
 import Link from "next/link";
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, useCarousel = true }: { product: Product; useCarousel?: boolean }) {
     const [stockLevels, setStockLevels] = useState<StockLevel[]>([]);
     const [images, setImages] = useState<ProductImage[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
         if (product.id !== undefined) {
             setLoading(true); // Start loading
             Promise.all([
-                fetchStockLevelByProductId(product.id).then((data) => setStockLevels(data)),
+                fetchStockLevelsByProductId(product.id).then((data) => setStockLevels(data)),
                 fetchImagesByProductId(product.id).then((data) => setImages(data)),
             ])
                 .catch((error) => console.error("Error fetching data:", error))
@@ -40,15 +40,19 @@ export default function ProductCard({ product }: { product: Product }) {
     } else if (images.length === 1) {
         imageArea = <Image src={images[0].url} alt={images[0].alt_text} height={200} fit="cover" />;
     } else if (images.length > 1) {
-        imageArea = (
-            <Carousel orientation="horizontal" height={350} withIndicators loop>
-                {images.map((image, index) => (
-                    <Carousel.Slide key={`${image.url}-${index}`} style={{ display: "flex", justifyContent: "center" }}>
-                        <Image src={image.url} alt={image.alt_text} height={300} fit="cover" />
-                    </Carousel.Slide>
-                ))}
-            </Carousel>
-        );
+        if (useCarousel) {
+            imageArea = (
+                <Carousel orientation="horizontal" height={350} withIndicators loop>
+                    {images.map((image, index) => (
+                        <Carousel.Slide key={`${image.url}-${index}`} style={{ display: "flex", justifyContent: "center" }}>
+                            <Image src={image.url} alt={image.alt_text} height={300} fit="cover" />
+                        </Carousel.Slide>
+                    ))}
+                </Carousel>
+            );
+        } else {
+            imageArea = <Image src={images[0].url} alt={images[0].alt_text} height={200} fit="cover" />;
+        }
     }
 
     return (
