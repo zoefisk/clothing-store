@@ -49,7 +49,7 @@ export async function fetchProductBySlug(productSlug: string): Promise<Product |
  * </br>
  * @param productId The ID of the product for which to fetch the stock level.
  */
-export async function fetchStockLevelByProductId(productId: number) {
+export async function fetchStockLevelsByProductId(productId: number) {
     const response = await fetch(`/api/stock-levels?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
