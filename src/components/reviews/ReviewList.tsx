@@ -14,12 +14,19 @@ export default function ReviewList({ reviews }: { reviews: Review[] }) {
         );
     }
     else {
+        const visibleReviews = reviews.slice(0, 3); // TODO: Implement "View More" functionality
+
         return (
             <div>
                 <Title order={3} mt="xl" mb="md">Reviews and Comments</Title>
-                {reviews.map((review: Review) => (
-                    <ReviewItem key={review.id} review={review}/>
+                {visibleReviews.map((review: Review) => (
+                    <div key={review.id} style={{ marginBottom: '1rem' }}>
+                        <ReviewItem review={review} />
+                    </div>
                 ))}
+                {reviews.length > 3 && (
+                    <button style={{ marginTop: '1rem' }}>see more comments...</button>
+                )}
             </div>
         );
     }

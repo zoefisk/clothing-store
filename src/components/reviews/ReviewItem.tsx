@@ -3,11 +3,9 @@ import { Review } from "@/models/Review";
 import {didUserWriteReview, getUserByUserId} from "@/utils/auth";
 import P from "@/components/typography/P";
 import H3 from "@/components/typography/H3";
+import {Button, Paper, Rating} from "@mantine/core";
 
 export default function ReviewList({ review }: { review: Review }) {
-
-    console.log("start of the function -- review: ", review);
-    console.log("start of the function -- review.userId: ", review.userId);
 
     const [userWroteReview, setUserWroteReview] = useState<boolean | null>(null);
     const [userName, setUserName] = useState<string | null>(null);
@@ -48,24 +46,26 @@ export default function ReviewList({ review }: { review: Review }) {
         return <div>Loading...</div>;
     }
 
-    if (userWroteReview) {
-        return (
-            <div>
-                <H3>{userName} Hey</H3>
-                <P>{review.content}</P>
-                <P>{review.createdAt ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(review.createdAt)) : "Invalid date"}</P>
-                <P>{review.rating}/5</P>
-                <P>Edit</P>
+    return (
+        <Paper shadow="sm" radius="md" p="md" withBorder style={{position: "relative"}}>
+            <div style={{position: "absolute", display: "flex", top: "10px", right: "10px", gap: "10px"}}>
+                {review.rating}
+                <Rating value={review.rating}/>
             </div>
-        );
-    } else {
-        return (
-            <div>
-                <H3>{userName} Hey</H3>
+            <H3>{userName}</H3>
+            <P>{review.createdAt ? new Intl.DateTimeFormat("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            }).format(new Date(review.createdAt)) : "Invalid date"}</P>
+            <div style={{ marginRight: "15%", marginTop: "10px"}}>
                 <P>{review.content}</P>
-                <P>{review.createdAt ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(review.createdAt)) : "Invalid date"}</P>
-                <P>{review.rating}/5</P>
             </div>
-        );
-    }
+            {userWroteReview && (
+                <Button style={{ position: "absolute", bottom: "10px", top: "auto", right: "10px" }}>
+                    Edit
+                </Button>
+            )}
+        </Paper>
+    );
 }
