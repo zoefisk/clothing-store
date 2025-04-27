@@ -98,7 +98,7 @@ export async function fetchReviewsByProductId(productId: number): Promise<Review
         productId: review.product_id,
         userId: review.user_id,
         rating: review.rating,
-        comment: review.comment,
+        content: review.content,
         createdAt: review.created_at,
         updatedAt: review.updated_at,
     }));
