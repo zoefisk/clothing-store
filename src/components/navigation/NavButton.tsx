@@ -1,10 +1,16 @@
-import {Button} from "@mantine/core";
-import {forwardRef} from "react";
+import { Button } from "@mantine/core";
+import { forwardRef } from "react";
 
-const NavButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-    ({ children, ...props }, ref) => {
+const NavButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & { onButtonPressed?: () => void }>(
+    ({ children, onButtonPressed, ...props }, ref) => {
         return (
-            <Button variant={"subtle"} styles={{ root: { backgroundColor: 'transparent', color: 'white' } }} ref={ref} {...props}>
+            <Button
+                variant={"subtle"}
+                styles={{ root: { backgroundColor: "transparent", color: "white" } }}
+                ref={ref}
+                onClick={onButtonPressed}
+                {...props}
+            >
                 {children}
             </Button>
         );
