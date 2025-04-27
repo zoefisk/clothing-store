@@ -4,6 +4,7 @@ import {SegmentedControl} from "@mantine/core";
 export default function SizeSelector({ sizes, onSizeChange }: { sizes: string[], onSizeChange: (size: string) => void }) {
     const searchParams = useSearchParams();
     const selectedColor = searchParams.get("size") || sizes[0];
+    if (!searchParams.get("size")) onSizeChange(sizes[0]);
 
     return (
         <SegmentedControl
