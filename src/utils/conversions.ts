@@ -10,6 +10,31 @@ export const convertSizesToLongForm = (sizes: string[]): string[] => {
     return sizes.map((size) => sizeMap[size] || size);
 }
 
+export const convertURLSize = (size: string | null): string => {
+    switch (size) {
+        case "extra-small":
+            size = "XS";
+            break;
+        case "small":
+            size = "S";
+            break;
+        case "medium":
+            size = "M";
+            break;
+        case "large":
+            size = "L";
+            break;
+        case "extra-large":
+            size = "XL";
+            break;
+        case "double-extra-large":
+            size = "XXL";
+            break;
+    }
+
+    return <string>size;
+}
+
 export const convertSizesToShortForm = (sizes: string[]): string[] => {
     const sizeMap: { [key: string]: string } = {
         Small: "S",
