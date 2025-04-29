@@ -3,30 +3,27 @@ import { Product } from "@/models/Product";
 import ColorSelector from "@/components/products/ColorSelector";
 import SizeSelector from "@/components/products/SizeSelector";
 import { useSearchParams, useRouter } from "next/navigation";
+import {convertLowerCaseToFirstUpperCase, convertSizesToLongForm} from "@/utils/conversions";
 
 interface ProductDetailsProps {
     product: Product;
 }
-
-const sizes = ['Small', 'Medium', 'Large'];
-const colors = ['Red', 'Blue', 'Green'];
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
 
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    const handleColorChange = (color: string) => {
+    const handleAttributeChange = (attribute: "color" | "size", value: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set("color", color.toLowerCase());
-        router.push(`?${params.toString()}`);
+        params.set(attribute, value.toLowerCase().replace(/\s+/g, '-'));
+        setTimeout(() => {
+            router.push(`?${params.toString()}`);
+        }, 0);
     };
 
-    const handleSizeChange = (size: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("size", size.toLowerCase().replace(/\s+/g, '-'));
-        router.push(`?${params.toString()}`);
-    };
+    const longformSizes = convertSizesToLongForm(product.sizes);
+    const upperCaseColors = convertLowerCaseToFirstUpperCase(product.colors);
 
     return (
         <Grid.Col span={6}>
@@ -42,11 +39,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
             <div style={{marginBottom: '1rem', marginTop: '1rem'}}>
                 <Text fw={500} size="sm" mb="xs">Select Color:</Text>
-                <ColorSelector colors={colors} onColorChange={handleColorChange}/>
+                <ColorSelector colors={upperCaseColors} onColorChange={(color) => handleAttributeChange("color", color)} />
             </div>
             <div>
                 <Text fw={500} size="sm" mb="xs">Select Size:</Text>
-                <SizeSelector sizes={sizes} onSizeChange={handleSizeChange}/>
+                <SizeSelector sizes={longformSizes} onSizeChange={(size) => handleAttributeChange("size", size)} />
             </div>
         </Grid.Col>
     );
