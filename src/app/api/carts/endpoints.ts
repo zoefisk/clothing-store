@@ -1,6 +1,6 @@
-import { getCaryByUserIdHandler, createCartHandler } from './handlers';
+import { getCartByUserIdHandler, createCartHandler } from './handlers';
 
 export const endpoints = {
-  GET: getCaryByUserIdHandler,
+  GET: getCartByUserIdHandler,
   POST: createCartHandler,
 };

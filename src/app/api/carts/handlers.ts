@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { CartHandler } from './controllers';
 
-export async function getCaryByUserIdHandler(req: Request) {
+export async function getCartByUserIdHandler(req: Request) {
 
   const url = new URL(req.url);
   const userId = url.searchParams.get('userId');
