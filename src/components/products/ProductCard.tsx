@@ -37,12 +37,26 @@ export default function ProductCard({ product, useCarousel = true }: { product: 
                 <P>No images available for this product.</P>
             </div>
         );
-    } else if (images.length === 1) {
+    } else if (images.length >= 1) {
         imageArea = <Image src={images[0].url} alt={images[0].altText} height={200} fit="cover" />;
-    } else if (images.length > 1) {
+    } else {
         if (useCarousel) {
             imageArea = (
-                <Carousel orientation="horizontal" height={350} withIndicators loop>
+                <Carousel
+                    orientation="horizontal"
+                    height={350}
+                    withIndicators
+                    loop
+                    styles={{
+                        indicator: {
+                            pointerEvents: "auto", // Ensure indicators are clickable
+                        },
+                    }}
+                    onMouseDown={(e) => {
+                        e.preventDefault(); // Prevent default behavior
+                        e.stopPropagation(); // Stop event propagation
+                    }}
+                >
                     {images.map((image, index) => (
                         <Carousel.Slide key={`${image.url}-${index}`} style={{ display: "flex", justifyContent: "center" }}>
                             <Image src={image.url} alt={image.altText} height={300} fit="cover" />
@@ -50,24 +64,29 @@ export default function ProductCard({ product, useCarousel = true }: { product: 
                     ))}
                 </Carousel>
             );
-        } else {
-            imageArea = <Image src={images[0].url} alt={images[0].altText} height={200} fit="cover" />;
         }
     }
 
     return (
-        <Skeleton visible={loading} radius="md" height={410}>
+        <Skeleton visible={loading} radius="md" height={410} width={350}>
             <Link href={`/products/${product.slug}`} style={{ textDecoration: "none" }}>
                 <Card
                     shadow="sm"
                     padding="lg"
                     radius="md"
                     withBorder
-                    style={{ transition: "transform 0.2s", cursor: "pointer", width: 350, height: 410 }}
+                    style={{
+                        transition: "transform 0.2s",
+                        cursor: "pointer",
+                        width: 350,
+                        height: 410,
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
                     onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
                     onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
                 >
-                    <Card.Section>{imageArea}</Card.Section>
+                    <Card.Section style={{ flex: 1 }}>{imageArea}</Card.Section>
 
                     <Group justify="space-between" mt="md" mb="xs">
                         <Text fw={500} lineClamp={1}>{product.name}</Text>
