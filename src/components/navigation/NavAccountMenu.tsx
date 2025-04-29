@@ -5,6 +5,8 @@ import {clothingSizes, clothingStyles, clothingTypes} from "@/lib/constants";
 
 export default function NavAccountMenu({ username }: { username: string }) {
 
+    // TODO: link to admin panel
+
     return (
         <Menu trigger="hover" openDelay={100} closeDelay={400}>
             <Menu.Target>

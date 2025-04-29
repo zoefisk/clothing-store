@@ -1,21 +1,54 @@
-import CategoriesMenu from './CategoriesMenu';
+"use client";
+
+import { useEffect, useState } from "react";
+import CategoriesMenu from "./CategoriesMenu";
 import NavButton from "@/components/navigation/NavButton";
+import { getSignedInUser } from "@/utils/auth";
+import P from "@/components/typography/P";
+import {signIn} from "next-auth/react";
+import SearchBar from "@/components/navigation/SearchBar";
+import NavAccountMenu from "@/components/navigation/NavAccountMenu";
+import ViewCartButton from "@/components/navigation/ViewCartButton";
 
 export default function NavBar() {
+    const [user, setUser] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const signedInUser = await getSignedInUser();
+            if (signedInUser) {
+                setUser(`${signedInUser.firstName} ${signedInUser.lastName}`);
+            } else {
+                setUser(null);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    const handleGoogleSignUp = () => {
+        signIn("google", { redirect: true, callbackUrl: "/" });
+    };
+
+    const handleAccountButton = () => {
+        console.log("NavButton pressed!");
+    };
+
     return (
         <nav className="bg-gray-800 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-            <a href="/" className="text-white text-lg font-bold">Clothing For You!</a>
-            <ul className="flex space-x-4">
-                <li><a href="/public" className="text-white hover:text-gray-300">Discover</a></li>
-                <CategoriesMenu/>
-                {/*<li><a href="/adminPanel" className="text-white hover:text-gray-300">Admin Panel</a></li> TODO: this should only appear if the signed in user is an admin. */ }
-                <NavButton>
-                    Create an Account
-                </NavButton>
-
-            </ul>
-        </div>
+            <div className="container mx-auto flex justify-between items-center">
+                <a href="/" className="text-white text-lg font-bold">Clothing For You!</a>
+                <ul className="flex space-x-4">
+                    <SearchBar/>
+                    <CategoriesMenu />
+                    <ViewCartButton/>
+                    {user ? (
+                        <NavAccountMenu username={user?.split(" ")[0]}/>
+                    ) : (
+                        <NavButton onButtonPressed={handleGoogleSignUp}>Sign In with Google</NavButton>
+                    )}
+                </ul>
+            </div>
         </nav>
     );
 }
