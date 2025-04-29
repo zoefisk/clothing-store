@@ -1,3 +1,7 @@
+/**
+ * Cart Items API Route
+ */
+
 import { endpoints } from './endpoints';
 
 export const GET = endpoints.GET;

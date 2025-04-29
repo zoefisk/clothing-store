@@ -1,8 +1,6 @@
 /**
  * api.ts
- * <br>
- * This file contains functions to interact with the API for fetching and creating products.
- * </br>
+ * @description this file contains functions to interact with the API for fetching and creating products.
  */
 
 import {Product} from "@/models/Product";
@@ -14,7 +12,7 @@ import {Cart} from "@/models/Cart";
  * Fetch functions
  */
 
-export async function fetchProducts(): Promise<Product[]> {
+export async function fetchProducts (): Promise<Product[]> {
     const response = await fetch('/api/products', { method: 'GET' });
     if (!response.ok) {
         throw new Error('Failed to fetch products');
@@ -23,7 +21,7 @@ export async function fetchProducts(): Promise<Product[]> {
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
 }
-export async function fetchProductBySlug(productSlug: string): Promise<Product | null> {
+export async function fetchProductBySlug (productSlug: string): Promise<Product | null> {
     const response = await fetch(`/api/products?slug=${encodeURIComponent(productSlug)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -33,7 +31,7 @@ export async function fetchProductBySlug(productSlug: string): Promise<Product |
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
 }
-export async function fetchStockLevelsByProductId(productId: number) {
+export async function fetchStockLevelsByProductId (productId: number) {
     const response = await fetch(`/api/stock-levels?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -43,7 +41,7 @@ export async function fetchStockLevelsByProductId(productId: number) {
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
 }
-export async function fetchImagesByStockLevelId(stockLevelId: number) {
+export async function fetchImagesByStockLevelId (stockLevelId: number) {
     const response = await fetch(`/api/product-images?stockLevelId=${encodeURIComponent(stockLevelId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -53,7 +51,7 @@ export async function fetchImagesByStockLevelId(stockLevelId: number) {
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
 }
-export async function fetchImageByImageId(imageId: number) {
+export async function fetchImageByImageId (imageId: number) {
     const response = await fetch(`/api/product-images?imageId=${encodeURIComponent(imageId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -71,7 +69,7 @@ export async function fetchImageByImageId(imageId: number) {
         id: data.id,
     }; // Return the transformed object
 }
-export async function fetchImagesByProductId(productId: number) {
+export async function fetchImagesByProductId (productId: number) {
     const response = await fetch(`/api/product-images?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -81,7 +79,7 @@ export async function fetchImagesByProductId(productId: number) {
     const data = await response.json(); // Await the JSON response
     return data; // Return the resolved data
 }
-export async function fetchReviewsByProductId(productId: number): Promise<Review[]> {
+export async function fetchReviewsByProductId (productId: number): Promise<Review[]> {
     const response = await fetch(`/api/reviews?productId=${encodeURIComponent(productId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -104,7 +102,7 @@ export async function fetchReviewsByProductId(productId: number): Promise<Review
 
     return reviews; // Return the transformed data
 }
-export async function fetchCartByUserId(userId: number) {
+export async function fetchCartByUserId (userId: number) {
     const response = await fetch(`/api/carts?userId=${encodeURIComponent(userId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -119,7 +117,7 @@ export async function fetchCartByUserId(userId: number) {
         id: data.id,
     } as Cart;
 }
-export async function fetchCartItemsByCartId(cartId: number) {
+export async function fetchCartItemsByCartId (cartId: number) {
     const response = await fetch(`/api/cart-items?cartId=${encodeURIComponent(cartId)}`, { method: 'GET' });
 
     if (!response.ok) {
@@ -145,7 +143,7 @@ export async function fetchCartItemsByCartId(cartId: number) {
  * Create functions
  */
 
-export async function createProduct(product: Omit<Product, 'id'>) {
+export async function createProduct (product: Omit<Product, 'id'>) {
 
     const response = await fetch('/api/products', {
         method: 'POST',
@@ -165,7 +163,7 @@ export async function createProduct(product: Omit<Product, 'id'>) {
     }
     return response.json();
 }
-export async function createCart(cart: Omit<Cart, 'id'>) {
+export async function createCart (cart: Omit<Cart, 'id'>) {
     const response = await fetch('/api/carts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -187,7 +185,7 @@ export async function createCart(cart: Omit<Cart, 'id'>) {
  * Delete functions
  */
 
-export async function deleteProduct(productId: number) {
+export async function deleteProduct (productId: number) {
     const response = await fetch(`/api/products/${productId}`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
