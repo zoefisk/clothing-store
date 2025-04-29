@@ -124,6 +124,42 @@ export async function fetchReviewsByProductId(productId: number): Promise<Review
 
     return reviews; // Return the transformed data
 }
+export async function fetchCartByUserId(userId: number) {
+    const response = await fetch(`/api/carts?userId=${encodeURIComponent(userId)}`, { method: 'GET' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch cart');
+    }
+
+    const data = await response.json(); // Await the JSON response
+
+    return {
+        userId: data.user_id,
+        name: data.name,
+        id: data.id,
+    } as Cart;
+}
+export async function fetchCartItemsByCartId(cartId: number) {
+    const response = await fetch(`/api/cart-items?cartId=${encodeURIComponent(cartId)}`, { method: 'GET' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch cart items');
+    }
+
+    const data = await response.json(); // Await the JSON response
+
+    const cartItems = data.map((cartItem: any) => ({
+        id: cartItem.id,
+        productId: cartItem.product_id,
+        color: cartItem.color,
+        size: cartItem.size,
+        quantity: cartItem.quantity,
+        subtotalPrice: cartItem.subtotal_price,
+        taxesPrice: cartItem.taxes_price,
+    }));
+
+    return cartItems as CartItem[]; // Return the transformed data
+}
 
 /**
  * createProduct
