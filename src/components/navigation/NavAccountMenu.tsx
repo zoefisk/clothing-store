@@ -2,6 +2,7 @@ import {Grid, Menu} from "@mantine/core";
 import NavButton from "@/components/navigation/NavButton";
 import H3 from "@/components/typography/H3";
 import {clothingSizes, clothingStyles, clothingTypes} from "@/lib/constants";
+import {IconUserCircle} from "@tabler/icons-react";
 
 export default function NavAccountMenu({ username }: { username: string }) {
 
@@ -12,6 +13,7 @@ export default function NavAccountMenu({ username }: { username: string }) {
             <Menu.Target>
                 <NavButton>
                     Hi, {username}!
+                    <IconUserCircle size={20} style={{ color: "#ffffff", marginLeft: 8 }} />
                 </NavButton>
             </Menu.Target>
 

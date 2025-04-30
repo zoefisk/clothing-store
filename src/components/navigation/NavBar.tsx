@@ -9,6 +9,7 @@ import {signIn} from "next-auth/react";
 import SearchBar from "@/components/navigation/SearchBar";
 import NavAccountMenu from "@/components/navigation/NavAccountMenu";
 import ViewCartButton from "@/components/navigation/ViewCartButton";
+import {IconLogin2} from "@tabler/icons-react";
 
 export default function NavBar() {
     const [user, setUser] = useState<string | null>(null);
@@ -45,7 +46,10 @@ export default function NavBar() {
                     {user ? (
                         <NavAccountMenu username={user?.split(" ")[0]}/>
                     ) : (
-                        <NavButton onButtonPressed={handleGoogleSignUp}>Sign In with Google</NavButton>
+                        <NavButton onButtonPressed={handleGoogleSignUp}>
+                            Sign In with Google
+                            <IconLogin2 size={20} strokeWidth={2.5} style={{ color: "#ffffff", marginLeft: 8 }} />
+                        </NavButton>
                     )}
                 </ul>
             </div>
