@@ -17,6 +17,7 @@ import {filterProductsByCategories} from "@/utils/filter";
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -33,14 +34,15 @@ export default function ProductsPage() {
         };
 
         fetchAndSortProducts();
+        setSelectedProducts(products);
     }, []);
 
-    const handleFilterChange = (filter: string) => {
+    const handleFilterChange = (filters: string[]) => {
         if (loading) return;
 
-        if (filter !== "") {
-            const filteredProducts = filterProductsByCategories(products, filter);
-            setProducts(filteredProducts);
+        if (filters) {
+            const filteredProducts = filterProductsByCategories(products, filters);
+            setSelectedProducts(filteredProducts);
         }
     };
 
@@ -55,7 +57,7 @@ export default function ProductsPage() {
                 <FilterAndSortBox onFilterChange={handleFilterChange} onSortChange={handleSortChange} />
             </Grid.Col>
             <Grid.Col span={9}>
-                <SearchBar />
+                <SearchBar showIcon={false} />
                 <div style={{ marginTop: "20px" }}>
                     <ProductGrid products={products} />
                 </div>
